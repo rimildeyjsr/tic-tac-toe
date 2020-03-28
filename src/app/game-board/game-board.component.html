@@ -1,3 +1,13 @@
-<p>
-  game-board works!
-</p>
+<div class="board-container">
+  <ng-container *ngFor="let i of numberArray; let i=i">
+    <div class="board-row">
+      <ng-container *ngFor="let j of numberArray; let j=j">
+        <div
+          class="board-cell"
+          [attr.data-key]=getKey(i,j)
+          (click)="registerState($event)"
+        ></div>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

@@ -3,13 +3,20 @@
     Welcome to TIC TAC TOE!
   </div>
 
-  <form class="input-container" (ngSubmit)="getValueForN()">
+  <form class="input-container">
     <label for="user-input" class="label-input">Enter n</label>
     <input
       name="user-input-n"
       id="user-input"
       [(ngModel)]="numberOfBoxes"
     />
-    <button type="submit">Submit</button>
   </form>
+
+  <ng-container *ngIf="numberOfBoxes">
+    <app-game-board [noOfBoxes]="numberOfBoxes" [currentPlayer]="currentPlayer"></app-game-board>
+    <div class="turn-text">
+      Player {{currentPlayer + 1}}
+    </div>
+    <button (click)="changeTurn()">Done!</button>
+  </ng-container>
 </div>
