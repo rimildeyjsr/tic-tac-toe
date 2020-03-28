@@ -13,10 +13,18 @@
   </form>
 
   <ng-container *ngIf="numberOfBoxes">
-    <app-game-board [noOfBoxes]="numberOfBoxes" [currentPlayer]="currentPlayer"></app-game-board>
-    <div class="turn-text">
+    <app-game-board
+      [noOfBoxes]="numberOfBoxes"
+      [currentPlayer]="currentPlayer"
+      (emitWinner)="stopGame($event)"
+    ></app-game-board>
+    <div class="turn-text" *ngIf="winner === null; else showWinner">
       Player {{currentPlayer + 1}}
     </div>
-    <button (click)="changeTurn()">Done!</button>
+    <ng-template #showWinner>
+      Player {{winner + 1}} has won!
+      Refresh page!
+    </ng-template>
+    <button (click)="changeTurn()" *ngIf="winner === null">Done!</button>
   </ng-container>
 </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, SimpleChanges, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, Output, SimpleChanges, OnChanges, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-game-board',
@@ -9,6 +9,7 @@ export class GameBoardComponent implements OnInit, OnChanges {
 
   @Input() noOfBoxes: number;
   @Input() currentPlayer: number;
+  @Output() emitWinner = new EventEmitter();
   gameBoardArr = {};
   numberArray = [];
   cell = null;
@@ -17,7 +18,6 @@ export class GameBoardComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes.noOfBoxes && this.noOfBoxes) {
       for (let i = 0; i < this.noOfBoxes; i++) {
         this.numberArray[i] = i;
@@ -33,6 +33,7 @@ export class GameBoardComponent implements OnInit, OnChanges {
       this.cell['innerHTML'] = this.currentPlayer ? 'X' : 'O';
       this.gameBoardArr[this.cell['dataset']['key']] = this.currentPlayer;
       this.cell = null;
+      this.checkForWinner();
     }
   }
 
@@ -51,6 +52,53 @@ export class GameBoardComponent implements OnInit, OnChanges {
     this.cell['innerHTML'] = this.currentPlayer ? 'X' : 'O';
     this.gameBoardArr[this.cell['dataset']['key']] = this.currentPlayer;
     console.log(this.gameBoardArr);
+  }
+
+  checkForWinner() {
+    const previousPlayer = this.currentPlayer ? 0 : 1;
+    let countVert, countHort, countLeftDiagonal = 0, countRightDiagonal = 0;
+    // vertical
+    for (let i = 0; i < this.noOfBoxes; i++) {
+      countVert = 0;
+      countHort = 0;
+      for (let j = 0; j < this.noOfBoxes; j++) {
+        let keyVert = i + '-' + j;
+        let keyHort = j + '-' + i;
+        // left diagonal
+        if (i == j && this.gameBoardArr[keyVert] === previousPlayer) {
+          countLeftDiagonal += 1;
+        }
+
+        // right diagonal
+        if ( ((i + j) == (this.noOfBoxes - 1)) && this.gameBoardArr[keyVert] === previousPlayer) {
+          countRightDiagonal += 1;
+        }
+
+        if (this.gameBoardArr[keyVert] === previousPlayer) {
+          countVert += 1;
+        }
+
+        if (this.gameBoardArr[keyHort] === previousPlayer) {
+          countHort += 1;
+        }
+      }
+      if (countVert == this.noOfBoxes) {
+        this.emitWinner.emit(previousPlayer);
+        break;
+      }
+      if (countHort == this.noOfBoxes) {
+        this.emitWinner.emit(previousPlayer);
+        break;
+      }
+      if (countLeftDiagonal == this.noOfBoxes) {
+        this.emitWinner.emit(previousPlayer);
+        break;
+      }
+      if (countRightDiagonal == this.noOfBoxes) {
+        this.emitWinner.emit(previousPlayer);
+        break;
+      }
+    }
   }
 
 }
