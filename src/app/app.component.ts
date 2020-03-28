@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tic-tac-toe';
+  numberOfBoxes: number = null;
+
+  getValueForN() {
+    console.log(this.numberOfBoxes);
+  }
 }
