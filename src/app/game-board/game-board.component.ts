@@ -51,7 +51,6 @@ export class GameBoardComponent implements OnInit, OnChanges {
     this.cell = event.target;
     this.cell['innerHTML'] = this.currentPlayer ? 'X' : 'O';
     this.gameBoardArr[this.cell['dataset']['key']] = this.currentPlayer;
-    console.log(this.gameBoardArr);
   }
 
   checkForWinner() {
