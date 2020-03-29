@@ -14,12 +14,9 @@ export class AppComponent {
   changeTurn() {
     this.currentPlayer = this.currentPlayer ? 0 : 1;
   }
-  // possible players can be 0 and 1
-  // game starts -> 1st turn 0
-  // button -> when 0 is satisfied, only then click button when that position gets fixed
-  // turn goes to player 2 repeat
 
   stopGame(event) {
+    // 0 and 1 values are for players, 2 is for draw game
     this.winner = event;
   }
 }

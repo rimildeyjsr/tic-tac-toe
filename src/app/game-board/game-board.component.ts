@@ -21,7 +21,7 @@ export class GameBoardComponent implements OnChanges {
       for (let i = 0; i < this.noOfBoxes; i++) {
         this.numberArray[i] = i;
         for (let j = 0; j < this.noOfBoxes; j++) {
-          const key = i + '-' + j;
+          const key = this.getKey(i, j);
           this.gameBoardArr[key] = null;
         }
       }
@@ -71,8 +71,8 @@ export class GameBoardComponent implements OnChanges {
       countVert = 0;
       countHort = 0;
       for (let j = 0; j < this.noOfBoxes; j++) {
-        const keyVert = i + '-' + j;
-        const keyHort = j + '-' + i;
+        const keyVert = this.getKey(i, j);
+        const keyHort = this.getKey(j, i);
 
         // left diagonal
         if (i == j && this.gameBoardArr[keyVert] === previousPlayer) {
@@ -92,27 +92,21 @@ export class GameBoardComponent implements OnChanges {
           countHort += 1;
         }
       }
+      this.emitEventIfWinner(countVert, previousPlayer);
+      this.emitEventIfWinner(countHort, previousPlayer);
+      this.emitEventIfWinner(countLeftDiagonal, previousPlayer);
+      this.emitEventIfWinner(countRightDiagonal, previousPlayer);
+    }
+  }
 
-      if (countVert == this.noOfBoxes) {
-        this.emitWinnerOrDrawGame.emit(previousPlayer);
-        this.disableClick = true;
-        break;
-      }
-      if (countHort == this.noOfBoxes) {
-        this.emitWinnerOrDrawGame.emit(previousPlayer);
-        this.disableClick = true;
-        break;
-      }
-      if (countLeftDiagonal == this.noOfBoxes) {
-        this.emitWinnerOrDrawGame.emit(previousPlayer);
-        this.disableClick = true;
-        break;
-      }
-      if (countRightDiagonal == this.noOfBoxes) {
-        this.emitWinnerOrDrawGame.emit(previousPlayer);
-        this.disableClick = true;
-        break;
-      }
+  getKey(i, j) {
+    return i + '-' + j;
+  }
+
+  emitEventIfWinner(countForDirection, previousPlayer) {
+    if (countForDirection == this.noOfBoxes) {
+      this.emitWinnerOrDrawGame.emit(previousPlayer);
+      this.disableClick = true;
     }
   }
 
