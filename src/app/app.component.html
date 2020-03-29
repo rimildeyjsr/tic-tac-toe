@@ -1,9 +1,9 @@
 <div class="app-container">
-  <div class="welcome-header">
+  <div class="welcome-header" *ngIf="numberOfBoxes === null">
     Welcome to TIC TAC TOE!
   </div>
 
-  <form class="input-container">
+  <form class="input-container" *ngIf="numberOfBoxes === null">
     <label for="user-input" class="label-input">Enter n</label>
     <input
       name="user-input-n"
@@ -23,7 +23,7 @@
     </div>
     <ng-template #showWinner>
       Player {{winner + 1}} has won!
-      Refresh page!
+      Refresh page to play again!
     </ng-template>
     <button (click)="changeTurn()" *ngIf="winner === null">Done!</button>
   </ng-container>

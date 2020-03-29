@@ -54,6 +54,7 @@ export class GameBoardComponent implements OnChanges {
       for (let j = 0; j < this.noOfBoxes; j++) {
         const keyVert = i + '-' + j;
         const keyHort = j + '-' + i;
+
         // left diagonal
         if (i == j && this.gameBoardArr[keyVert] === previousPlayer) {
           countLeftDiagonal += 1;
@@ -72,6 +73,7 @@ export class GameBoardComponent implements OnChanges {
           countHort += 1;
         }
       }
+
       if (countVert == this.noOfBoxes) {
         this.emitWinner.emit(previousPlayer);
         break;
