@@ -4,7 +4,7 @@
       <ng-container *ngFor="let j of numberArray; let j=j">
         <div
           class="board-cell"
-          [attr.data-key]=getKey(i,j)
+          [attr.data-key]="i + '-' + j"
         ></div>
       </ng-container>
     </div>

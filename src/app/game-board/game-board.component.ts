@@ -37,10 +37,6 @@ export class GameBoardComponent implements OnInit, OnChanges {
     }
   }
 
-  getKey(i, j) {
-    return i + '-' + j;
-  }
-
   registerState(event) {
     if (this.cell) {
       let previous = this.cell;
