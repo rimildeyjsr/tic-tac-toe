@@ -16,13 +16,18 @@
     <app-game-board
       [noOfBoxes]="numberOfBoxes"
       [currentPlayer]="currentPlayer"
-      (emitWinner)="stopGame($event)"
+      (emitWinnerOrDrawGame)="stopGame($event)"
     ></app-game-board>
-    <div class="turn-text" *ngIf="winner === null; else showWinner">
+    <div class="turn-text" *ngIf="winner === null; else showWinnerOrDrawGameMsg">
       Player {{currentPlayer + 1}}
     </div>
-    <ng-template #showWinner>
-      Player {{winner + 1}} has won!
+    <ng-template #showWinnerOrDrawGameMsg>
+      <ng-container *ngIf="winner === 2; else showWinnerMsg">
+        Draw game!
+      </ng-container>
+      <ng-template #showWinnerMsg>
+        Player {{winner + 1}} has won!
+      </ng-template>
       Refresh page to play again!
     </ng-template>
     <button (click)="changeTurn()" *ngIf="winner === null">Done!</button>

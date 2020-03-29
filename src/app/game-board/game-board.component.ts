@@ -9,7 +9,7 @@ export class GameBoardComponent implements OnChanges {
 
   @Input() noOfBoxes: number;
   @Input() currentPlayer: number;
-  @Output() emitWinner = new EventEmitter();
+  @Output() emitWinnerOrDrawGame = new EventEmitter();
   gameBoardArr = {};
   numberArray = [];
   cell = null;
@@ -28,6 +28,7 @@ export class GameBoardComponent implements OnChanges {
 
     if (changes.currentPlayer) {
       this.cell = null;
+      this.checkForDrawGame();
       this.checkForWinner();
     }
   }
@@ -44,10 +45,26 @@ export class GameBoardComponent implements OnChanges {
     this.gameBoardArr[this.cell['dataset']['key']] = this.currentPlayer;
   }
 
+  checkForDrawGame() {
+    let countOfCellsFilled = 0;
+    for (let i = 0; i < this.noOfBoxes; i++) {
+      for (let j = 0; j < this.noOfBoxes; j++) {
+        const key = i + '-' + j;
+        if (this.gameBoardArr[key] !== null) {
+          countOfCellsFilled += 1;
+        }
+      }
+    }
+
+    if (countOfCellsFilled === (this.noOfBoxes * this.noOfBoxes)) {
+      // using value 2 to indicate draw game
+      this.emitWinnerOrDrawGame.emit(2);
+    }
+  }
+
   checkForWinner() {
     const previousPlayer = this.currentPlayer ? 0 : 1;
     let countVert, countHort, countLeftDiagonal = 0, countRightDiagonal = 0;
-    // vertical
     for (let i = 0; i < this.noOfBoxes; i++) {
       countVert = 0;
       countHort = 0;
@@ -75,19 +92,19 @@ export class GameBoardComponent implements OnChanges {
       }
 
       if (countVert == this.noOfBoxes) {
-        this.emitWinner.emit(previousPlayer);
+        this.emitWinnerOrDrawGame.emit(previousPlayer);
         break;
       }
       if (countHort == this.noOfBoxes) {
-        this.emitWinner.emit(previousPlayer);
+        this.emitWinnerOrDrawGame.emit(previousPlayer);
         break;
       }
       if (countLeftDiagonal == this.noOfBoxes) {
-        this.emitWinner.emit(previousPlayer);
+        this.emitWinnerOrDrawGame.emit(previousPlayer);
         break;
       }
       if (countRightDiagonal == this.noOfBoxes) {
-        this.emitWinner.emit(previousPlayer);
+        this.emitWinnerOrDrawGame.emit(previousPlayer);
         break;
       }
     }
