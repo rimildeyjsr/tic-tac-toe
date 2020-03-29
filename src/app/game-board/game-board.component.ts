@@ -1,11 +1,11 @@
-import {Component, OnInit, Input, Output, SimpleChanges, OnChanges, EventEmitter} from '@angular/core';
+import {Component, Input, Output, SimpleChanges, OnChanges, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-game-board',
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.css']
 })
-export class GameBoardComponent implements OnInit, OnChanges {
+export class GameBoardComponent implements OnChanges {
 
   @Input() noOfBoxes: number;
   @Input() currentPlayer: number;
@@ -14,8 +14,6 @@ export class GameBoardComponent implements OnInit, OnChanges {
   numberArray = [];
   cell = null;
   constructor() { }
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.noOfBoxes && this.noOfBoxes) {
@@ -29,9 +27,6 @@ export class GameBoardComponent implements OnInit, OnChanges {
     }
 
     if (changes.currentPlayer) {
-      this.cell = event.target;
-      this.cell['innerHTML'] = this.currentPlayer ? 'X' : 'O';
-      this.gameBoardArr[this.cell['dataset']['key']] = this.currentPlayer;
       this.cell = null;
       this.checkForWinner();
     }
@@ -57,8 +52,8 @@ export class GameBoardComponent implements OnInit, OnChanges {
       countVert = 0;
       countHort = 0;
       for (let j = 0; j < this.noOfBoxes; j++) {
-        let keyVert = i + '-' + j;
-        let keyHort = j + '-' + i;
+        const keyVert = i + '-' + j;
+        const keyHort = j + '-' + i;
         // left diagonal
         if (i == j && this.gameBoardArr[keyVert] === previousPlayer) {
           countLeftDiagonal += 1;
