@@ -1,4 +1,8 @@
-<div class="board-container" (click)="registerState($event)">
+<div
+  class="board-container"
+  (click)="disableClick ? $event.stopPropagation() : registerState($event)"
+  [ngClass]="disableClick ? 'disable-click' : 'allow-click'"
+>
   <ng-container *ngFor="let i of numberArray; let i=i">
     <div class="board-row">
       <ng-container *ngFor="let j of numberArray; let j=j">

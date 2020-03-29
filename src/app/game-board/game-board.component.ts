@@ -13,6 +13,7 @@ export class GameBoardComponent implements OnChanges {
   gameBoardArr = {};
   numberArray = [];
   cell = null;
+  disableClick = false;
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -59,6 +60,7 @@ export class GameBoardComponent implements OnChanges {
     if (countOfCellsFilled === (this.noOfBoxes * this.noOfBoxes)) {
       // using value 2 to indicate draw game
       this.emitWinnerOrDrawGame.emit(2);
+      this.disableClick = true;
     }
   }
 
@@ -93,18 +95,22 @@ export class GameBoardComponent implements OnChanges {
 
       if (countVert == this.noOfBoxes) {
         this.emitWinnerOrDrawGame.emit(previousPlayer);
+        this.disableClick = true;
         break;
       }
       if (countHort == this.noOfBoxes) {
         this.emitWinnerOrDrawGame.emit(previousPlayer);
+        this.disableClick = true;
         break;
       }
       if (countLeftDiagonal == this.noOfBoxes) {
         this.emitWinnerOrDrawGame.emit(previousPlayer);
+        this.disableClick = true;
         break;
       }
       if (countRightDiagonal == this.noOfBoxes) {
         this.emitWinnerOrDrawGame.emit(previousPlayer);
+        this.disableClick = true;
         break;
       }
     }

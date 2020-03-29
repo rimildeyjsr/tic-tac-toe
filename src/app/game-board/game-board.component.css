@@ -14,5 +14,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.allow-click {
   cursor: pointer;
+}
+
+.disable-click {
+  cursor: not-allowed !important;
 }
